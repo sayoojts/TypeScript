@@ -29,8 +29,6 @@ test('@setup Open Browser, Handle Cookies, and Log In', async () => {
 });
 
 
-
-
 let verificationCode: string | null = null; // Global variable to store the extracted code
 
 test.only('Get the Signup authentication code from Email', async ({ page }) => { 
