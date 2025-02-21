@@ -3,7 +3,7 @@ const { chromium } = require('playwright');
 (async () => {
   const browser = await chromium.launch({ headless: false });
   const page = await browser.newPage();
-  await page.goto('https://www.ups.com');
+  await page.goto('https://www.erp.com');
 
   console.log(await page.title());
 
@@ -33,15 +33,15 @@ const { chromium } = require('playwright');
     console.log('Clicked on "Log In".');
 
     // Click the "Sign up" link
-    await page.click('a.ups-link:has-text("Sign up")');
+    await page.click('a.erp-link:has-text("Sign up")');
 
     console.log('Clicked on "Sign up".');
 
   await page.waitForTimeout(5000);
 
   try {
-    await page.waitForSelector('a.ups-link:has-text("Sign up")', { timeout: 5000 });
-    await page.click('a.ups-link:has-text("Sign up")');
+    await page.waitForSelector('a.erp-link:has-text("Sign up")', { timeout: 5000 });
+    await page.click('a.erp-link:has-text("Sign up")');
     console.log('✅ Clicked on "Sign up".');
   } catch {
     console.log('⚠️ "Sign up" link not found.');
@@ -51,9 +51,9 @@ const { chromium } = require('playwright');
   try {
     await page.waitForSelector('#signUpName', { timeout: 5000 });
     await page.fill('#signUpName', 'John Smith');
-    await page.fill('#signUpEmail', 'deploymentmasterups@edny.net');
+    await page.fill('#signUpEmail', 'deploymentmastererp@edny.net');
     await page.fill('#signUpUserId', 'deploymentmaster');
-    await page.fill('#signUpPassword', 'UPSupsUPSups$001');
+    await page.fill('#signUpPassword', 'erperperperp$001');
     await page.check('#signUpAgreement');
     console.log('✅ Form filled.');
   } catch {
