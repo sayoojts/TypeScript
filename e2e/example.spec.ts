@@ -21,14 +21,15 @@ test.beforeAll(async () => {
 test.afterAll(async () => {
   await browser.close();
 });
-
+/*
 test('@setup Open Browser, Handle Cookies, and Log In', async () => {
   await page.goto('https://www.ups.com', { waitUntil: 'load' });
   console.log('✅ Browser opened and navigated to UPS website.');
   await page.waitForTimeout(5000);
 });
-
+*/
 test('Sign Up Process', async () => {
+  
   await page.goto('https://www.ups.com');
   console.log('✅ Browser opened and navigated to UPS website.');
 
@@ -55,42 +56,35 @@ test('Sign Up Process', async () => {
     await page.waitForSelector('a.ups-link:has-text("Sign up")', { timeout: 5000 });
     await page.click('a.ups-link:has-text("Sign up")');
     console.log('✅ Clicked on "Sign up".');
-  } catch (error) {
-    console.log('⚠️ "Log In" or "Sign Up" link not found.', error);
-  }
-
-  // Fill the Sign-Up form
-  try {
-    await page.waitForTimeout(20000);
+  
+    await page.waitForTimeout(10000);
     await page.waitForSelector('#signUpName', { timeout: 5000 });
     await page.fill('#signUpName', 'James Smith');
-    await page.fill('#signUpEmail', 'upsusr002@noneteam377726.testinator.com');
-    await page.fill('#signUpUserId', 'dpymstupsedna');
+    await page.fill('#signUpEmail', 'upsusr007@noneteam377726.testinator.com');
+    await page.fill('#signUpUserId', 'dpymstupsedng');
     await page.fill('#signUpPassword', 'DPYMSTdpymst!001');
     await page.check('label.ups-form_label.ups-checkbox-custom-label');
     console.log('✅ Form filled.');
-  } catch (error) {
-    console.log('⚠️ Form fields missing.', error);
-  }
+ 
 
   // Click Sign Up Button
-  try {
-    await page.waitForTimeout(10000);
+  
+    await page.waitForTimeout(5000);
     await page.click('button.ups-cta_primary:has-text("Sign Up")');
     console.log('✅ Clicked "Sign Up".');
   } catch (error) {
     console.log('⚠️ "Sign Up" button not found.', error);
   }
 
-  await page.waitForTimeout(60000);
+  //await page.waitForTimeout(60000);
 
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(10000);
 });
 
 
 let verificationCode: string | null = null; // Global variable to store the extracted code
 
-test('Get the Signup authentication code from Email', async ({ page }) => { 
+/*test('Get the Signup authentication code from Email', async ({ page }) => { 
   await page.goto('https://mail.tm/en/');
   console.log(await page.title());
   console.log('✅ Browser opened and navigated to Email website.');
@@ -154,9 +148,80 @@ test('Get the Signup authentication code from Email', async ({ page }) => {
 
   // Wait to see the opened email
   await page.waitForTimeout(5000);
+});*/
+
+test('Retrieve UPS Verification Code from Mailinator', async () => {
+  // Navigate to Mailinator
+  await page.goto('https://www.mailinator.com/');
+  console.log('✅ Navigated to Mailinator');
+
+  // Click on the Login button
+  await page.locator('span.x-menu-link-text:has-text("LOGIN")').first().click();
+  await page.waitForTimeout(3000);
+  console.log('✅ Clicked on Login button');
+
+  // Enter username and password
+  await page.fill('#many_login_email', 'deploymentmasterups@edny.net');
+  await page.fill('#many_login_password', 'UPSups$001');
+  await page.waitForTimeout(3000);
+  // Click Login button
+  await page.locator('a.btn.btn-default.submit:has-text("Log in")').click();
+  console.log('✅ Logged in successfully');
+
+  // Wait for inbox page to load
+  await page.waitForTimeout(5000);
+
+  // Select all email elements
+  //const emailElements = await page.locator('a:has(div.truncate.text-sm)').all();
+  const emailElements = await page.locator('//table/tbody/tr/td[4]').all();
+
+  console.log(`📩 Total emails found: ${emailElements.length}`);
+
+  //let verificationCode: string | null = null;
+
+  // Iterate through emails
+  for (let i = 0; i < emailElements.length; i++) {
+    const emailElement = emailElements[i];
+
+    // Get subject text
+    //const subject = await emailElement.locator('div.truncate.text-sm').textContent();
+    const subject = await emailElement.textContent();
+    console.log(`📩 Checking email ${i + 1}: ${subject}`);
+
+    if (subject && subject.match(/UPS:\s*\[(\d+)\]\s*is Your Verification Code/)) {
+      console.log(`✅ Found verification email: ${subject}`);
+      await emailElement.click();
+      await page.waitForTimeout(3000);
+
+      // Extract verification code using regex
+      const match = subject.match(/\[(\d+)\]/);
+      if (match) {
+        verificationCode = match[1];
+        console.log(`🔹 Extracted Verification Code: ${verificationCode}`);
+      } else {
+        console.log('❌ Failed to extract verification code.');
+      }
+      break;
+    }
+  }
+
+  expect(verificationCode).not.toBeNull();
 });
 
 test('Enter the code to complete signup', async () => {
   await page.goto('https://www.ups.com/eva/emailVerificationAndLogin?loc=en_US')
-  await page.waitForTimeout(50000);
+  await page.waitForTimeout(5000);
+  // Enter the verification code
+
+  const finalVerificationCode = verificationCode ?? ''; 
+  await page.locator('#verify_code').fill(finalVerificationCode);
+  console.log(`✍ Entered Verification Code: ${finalVerificationCode}`);
+
+  // Click the "Verify My Email" button
+  await page.locator('#emailVerificationAndLogin').click();
+  console.log('✅ Clicked on "Verify My Email" button');
+
+  // Wait for navigation or confirmation of verification
+  await page.waitForTimeout(300000); // Adjust if needed
+
 });
