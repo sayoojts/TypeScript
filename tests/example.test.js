@@ -2,9 +2,9 @@ const { test, expect } = require('@playwright/test');
 
 // Test Case 1: Open Browser, Handle Cookies, and Log In
 test('Open Browser, Handle Cookies, and Log In', async ({ page }) => {
-  // Navigate to the UPS website
-  await page.goto('https://www.ups.com');
-  console.log('Browser opened and navigated to UPS website.');
+  // Navigate to the erp website
+  await page.goto('https://www.erp.com');
+  console.log('Browser opened and navigated to erp website.');
 
   // Handle the cookie consent pop-up
   
@@ -45,9 +45,9 @@ test('Open Browser, Handle Cookies, and Log In', async ({ page }) => {
 
 // Test Case 2: Sign Up Process
 test('Sign Up Process', async ({ page }) => {
-  // Navigate to the UPS website
-  await page.goto('https://www.ups.com');
-  console.log('Browser opened and navigated to UPS website.');
+  // Navigate to the erp website
+  await page.goto('https://www.erp.com');
+  console.log('Browser opened and navigated to erp website.');
 
   // Handle the cookie consent pop-up (if needed)
   try {
@@ -71,10 +71,10 @@ test('Sign Up Process', async ({ page }) => {
   // Navigate to the Sign Up page
   try {
     // Wait for the "Sign up" link to appear
-    await page.waitForSelector('a.ups-link:has-text("Sign up")', { timeout: 5000 });
+    await page.waitForSelector('a.erp-link:has-text("Sign up")', { timeout: 5000 });
 
     // Click the "Sign up" link
-    await page.click('a.ups-link:has-text("Sign up")');
+    await page.click('a.erp-link:has-text("Sign up")');
 
     console.log('Clicked on "Sign up".');
   } catch (error) {
@@ -90,13 +90,13 @@ test('Sign Up Process', async ({ page }) => {
     await page.fill('#signUpName', 'John Smith');
 
     // Fill in the "Email" field
-    await page.fill('#signUpEmail', 'deploymentmasterups@edny.net');
+    await page.fill('#signUpEmail', 'deploymentmastererp@edny.net');
 
     // Fill in the "User ID" field
     await page.fill('#signUpUserId', 'deploymentmaster');
 
     // Fill in the "Password" field
-    await page.fill('#signUpPassword', 'UPSupsUPSups$001');
+    await page.fill('#signUpPassword', 'erperperperp$001');
 
     // Check the agreement checkbox
     await page.check('#signUpAgreement');
@@ -111,7 +111,7 @@ test('Sign Up Process', async ({ page }) => {
 
   // Click the "Sign Up" button
   try {
-    await page.click('button.ups-cta_primary:has-text("Sign Up")');
+    await page.click('button.erp-cta_primary:has-text("Sign Up")');
     console.log('Clicked on "Sign Up" button.');
   } catch (error) {
     console.log('"Sign Up" button did not appear or could not be clicked.', error);
