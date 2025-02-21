@@ -16,9 +16,9 @@ async function globalSetup(config: FullConfig) {
   });
 
   const page = await context.newPage();
-  await page.goto('https://www.ups.com', { waitUntil: 'load' });
+  await page.goto('https://www.erp.com', { waitUntil: 'load' });
 
-  console.log('✅ Browser opened and navigated to UPS website.');
+  console.log('✅ Browser opened and navigated to erp website.');
 
   // Wait for manual login (optional, if login is required)
   await page.waitForTimeout(10000); // Adjust as needed
