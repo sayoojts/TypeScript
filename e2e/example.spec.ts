@@ -23,15 +23,15 @@ test.afterAll(async () => {
 });
 /*
 test('@setup Open Browser, Handle Cookies, and Log In', async () => {
-  await page.goto('https://www.ups.com', { waitUntil: 'load' });
-  console.log('✅ Browser opened and navigated to UPS website.');
+  await page.goto('https://www.erp.com', { waitUntil: 'load' });
+  console.log('✅ Browser opened and navigated to erp website.');
   await page.waitForTimeout(5000);
 });
 */
 test('Sign Up Process', async () => {
   
-  await page.goto('https://www.ups.com');
-  console.log('✅ Browser opened and navigated to UPS website.');
+  await page.goto('https://www.erp.com');
+  console.log('✅ Browser opened and navigated to erp website.');
 
   // Handle the cookie consent pop-up
   try {
@@ -60,8 +60,8 @@ test('Sign Up Process', async () => {
     await page.waitForTimeout(10000);
     await page.waitForSelector('#signUpName', { timeout: 5000 });
     await page.fill('#signUpName', 'James Smith');
-    await page.fill('#signUpEmail', 'upsusr007@noneteam377726.testinator.com');
-    await page.fill('#signUpUserId', 'dpymstupsedng');
+    await page.fill('#signUpEmail', 'erpusr007@noneteam377726.testinator.com');
+    await page.fill('#signUpUserId', 'dpymsterpedng');
     await page.fill('#signUpPassword', 'DPYMSTdpymst!001');
     await page.check('label.ups-form_label.ups-checkbox-custom-label');
     console.log('✅ Form filled.');
@@ -96,8 +96,8 @@ let verificationCode: string | null = null; // Global variable to store the extr
   await page.locator('button:has-text("Login")').click();
 
   await page.waitForTimeout(10000);
-  await page.fill('input[name="address"]', 'DeploymentMasterUPS@edny.net');
-  await page.fill('input[name="password"]', 'UPSups$001'); 
+  await page.fill('input[name="address"]', 'DeploymentMastererp@edny.net');
+  await page.fill('input[name="password"]', 'erperp$001'); 
   await page.locator('button:has-text("Login")').click();
 
   // Wait for login to complete
@@ -150,7 +150,7 @@ let verificationCode: string | null = null; // Global variable to store the extr
   await page.waitForTimeout(5000);
 });*/
 
-test('Retrieve UPS Verification Code from Mailinator', async () => {
+test('Retrieve erp Verification Code from Mailinator', async () => {
   // Navigate to Mailinator
   await page.goto('https://www.mailinator.com/');
   console.log('✅ Navigated to Mailinator');
@@ -161,8 +161,8 @@ test('Retrieve UPS Verification Code from Mailinator', async () => {
   console.log('✅ Clicked on Login button');
 
   // Enter username and password
-  await page.fill('#many_login_email', 'deploymentmasterups@edny.net');
-  await page.fill('#many_login_password', 'UPSups$001');
+  await page.fill('#many_login_email', 'deploymentmastererp@edny.net');
+  await page.fill('#many_login_password', 'erperp$001');
   await page.waitForTimeout(3000);
   // Click Login button
   await page.locator('a.btn.btn-default.submit:has-text("Log in")').click();
@@ -209,7 +209,7 @@ test('Retrieve UPS Verification Code from Mailinator', async () => {
 });
 
 test('Enter the code to complete signup', async () => {
-  await page.goto('https://www.ups.com/eva/emailVerificationAndLogin?loc=en_US')
+  await page.goto('https://www.erp.com/eva/emailVerificationAndLogin?loc=en_US')
   await page.waitForTimeout(5000);
   // Enter the verification code
 
