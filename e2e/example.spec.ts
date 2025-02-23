@@ -1,8 +1,11 @@
 import { test, expect, chromium, Browser, BrowserContext, Page } from '@playwright/test';
 
-let browser: Browser;
+let 
+browser: Browser;
 let context: BrowserContext;
 let page: Page;
+let verificationCode: string | null = null; // Global variable to store the extracted code
+let emailValue: string | null = null;
 
 test.beforeAll(async () => {
   browser = await chromium.launch({ headless: false });
@@ -23,15 +26,27 @@ test.afterAll(async () => {
 });
 /*
 test('@setup Open Browser, Handle Cookies, and Log In', async () => {
-  await page.goto('https://www.erp.com', { waitUntil: 'load' });
-  console.log('✅ Browser opened and navigated to erp website.');
+  await page.goto('https://www.ups.com', { waitUntil: 'load' });
+  console.log('✅ Browser opened and navigated to UPS website.');
   await page.waitForTimeout(5000);
 });
 */
+
+test('Get temp Email Id', async () => {
+    // Navigate to Mailinator
+  //https://emailtemp.org/en
+  
+  await page.goto('https://emailtemp.org/en');
+  await page.waitForTimeout(5000);
+  emailValue = await page.locator('#trsh_mail').inputValue();
+  console.log("Email value:", emailValue);
+  //*[@class='message-item']/div/div[2]
+});  
+  
 test('Sign Up Process', async () => {
   
-  await page.goto('https://www.erp.com');
-  console.log('✅ Browser opened and navigated to erp website.');
+  await page.goto('https://www.ups.com');
+  console.log('✅ Browser opened and navigated to UPS website.');
 
   // Handle the cookie consent pop-up
   try {
@@ -60,8 +75,9 @@ test('Sign Up Process', async () => {
     await page.waitForTimeout(10000);
     await page.waitForSelector('#signUpName', { timeout: 5000 });
     await page.fill('#signUpName', 'James Smith');
-    await page.fill('#signUpEmail', 'erpusr007@noneteam377726.testinator.com');
-    await page.fill('#signUpUserId', 'dpymsterpedng');
+    await page.fill('#signUpEmail', emailValue!);
+    // await page.fill('#signUpEmail', 'upsusr009@noneteam377726.testinator.com');
+    await page.fill('#signUpUserId', 'dpymstupsednn');
     await page.fill('#signUpPassword', 'DPYMSTdpymst!001');
     await page.check('label.ups-form_label.ups-checkbox-custom-label');
     console.log('✅ Form filled.');
@@ -82,7 +98,7 @@ test('Sign Up Process', async () => {
 });
 
 
-let verificationCode: string | null = null; // Global variable to store the extracted code
+
 
 /*test('Get the Signup authentication code from Email', async ({ page }) => { 
   await page.goto('https://mail.tm/en/');
@@ -96,8 +112,8 @@ let verificationCode: string | null = null; // Global variable to store the extr
   await page.locator('button:has-text("Login")').click();
 
   await page.waitForTimeout(10000);
-  await page.fill('input[name="address"]', 'DeploymentMastererp@edny.net');
-  await page.fill('input[name="password"]', 'erperp$001'); 
+  await page.fill('input[name="address"]', 'DeploymentMasterUPS@edny.net');
+  await page.fill('input[name="password"]', 'UPSups$001'); 
   await page.locator('button:has-text("Login")').click();
 
   // Wait for login to complete
@@ -150,19 +166,27 @@ let verificationCode: string | null = null; // Global variable to store the extr
   await page.waitForTimeout(5000);
 });*/
 
-test('Retrieve erp Verification Code from Mailinator', async () => {
+test('Retrieve UPS Verification Code from Temp Mail', async () => {
   // Navigate to Mailinator
-  await page.goto('https://www.mailinator.com/');
-  console.log('✅ Navigated to Mailinator');
+  //https://emailtemp.org/en
+  /*
+  await page.goto('https://emailtemp.org/en');
+  const emailValue = await page.locator('#trsh_mail').inputValue();
+  console.log("Email value:", emailValue);
+  
+  */
+  await page.goto('https://emailtemp.org/en');
+  console.log('✅ Navigated to Temp Mail website.');
 
   // Click on the Login button
+  /*
   await page.locator('span.x-menu-link-text:has-text("LOGIN")').first().click();
   await page.waitForTimeout(3000);
   console.log('✅ Clicked on Login button');
 
   // Enter username and password
-  await page.fill('#many_login_email', 'deploymentmastererp@edny.net');
-  await page.fill('#many_login_password', 'erperp$001');
+  await page.fill('#many_login_email', 'deploymentmasterups@edny.net');
+  await page.fill('#many_login_password', 'UPSups$001');
   await page.waitForTimeout(3000);
   // Click Login button
   await page.locator('a.btn.btn-default.submit:has-text("Log in")').click();
@@ -170,10 +194,10 @@ test('Retrieve erp Verification Code from Mailinator', async () => {
 
   // Wait for inbox page to load
   await page.waitForTimeout(5000);
-
+  */
   // Select all email elements
   //const emailElements = await page.locator('a:has(div.truncate.text-sm)').all();
-  const emailElements = await page.locator('//table/tbody/tr/td[4]').all();
+  const emailElements = await page.locator('//*[@class="message-item"]/div/div[2]').all();
 
   console.log(`📩 Total emails found: ${emailElements.length}`);
 
@@ -209,7 +233,7 @@ test('Retrieve erp Verification Code from Mailinator', async () => {
 });
 
 test('Enter the code to complete signup', async () => {
-  await page.goto('https://www.erp.com/eva/emailVerificationAndLogin?loc=en_US')
+  await page.goto('https://www.ups.com/eva/emailVerificationAndLogin?loc=en_US')
   await page.waitForTimeout(5000);
   // Enter the verification code
 
@@ -222,6 +246,22 @@ test('Enter the code to complete signup', async () => {
   console.log('✅ Clicked on "Verify My Email" button');
 
   // Wait for navigation or confirmation of verification
-  await page.waitForTimeout(300000); // Adjust if needed
+  await page.waitForTimeout(10000); // Adjust if needed
+
+  await page.locator('//button[text()="Set Up Later"]').click();
+  await page.waitForTimeout(2000);
+  await page.locator('//button[text()="Continue"]').click();
+  await page.waitForTimeout(5000);
+  await page.locator('button#user-profile').click();
+  await page.locator('//a[text()="Account Dashboard"]').click();
+  await page.waitForTimeout(2000);
+  await page.locator('button#profile_tab_tab_1').click();
+  await page.locator('button.ups-cta.ups-cta-tertiary.mb-3').click();
+  await page.locator('button.ups-cta.ups-cta_tertiary').click();
+  //await page.locator('button.ups-cta.ups-cta_primary').click();
+  await page.waitForTimeout(60000);
+
 
 });
+
+

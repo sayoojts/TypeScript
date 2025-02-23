@@ -14,7 +14,7 @@ async function globalSetup() {
   const browser = await chromium.launchPersistentContext(USER_DATA_DIR, { headless: false });
   const page = await browser.newPage();
 
-  await page.goto('https://www.erp.com', { waitUntil: 'load' });
+  await page.goto('https://www.ups.com', { waitUntil: 'load' });
 
   // Perform login steps here if required
 

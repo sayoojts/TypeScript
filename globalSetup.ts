@@ -16,18 +16,18 @@ async function globalSetup(config: FullConfig) {
   });
 
   const page = await context.newPage();
-  await page.goto('https://www.erp.com', { waitUntil: 'load' });
+  //await page.goto('https://www.ups.com', { waitUntil: 'load' });
 
-  console.log('✅ Browser opened and navigated to erp website.');
+  console.log('✅ Browser opened and navigated to UPS website.');
 
   // Wait for manual login (optional, if login is required)
-  await page.waitForTimeout(10000); // Adjust as needed
+  //await page.waitForTimeout(5000); // Adjust as needed
 
   // Save authentication state for reuse
   await context.storageState({ path: 'auth.json' });
   console.log('✅ Authentication state saved to auth.json');
 
-  await browser.close();
+  //await browser.close();
 }
 
 export default globalSetup;
